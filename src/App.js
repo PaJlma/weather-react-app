@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { actionCreators } from './store/reducers/actions';
+import Header from './components/Header/Header';
+import TownNotFound from './components/TownNotFound/TownNotFound';
+import Main from './components/Main/Main';
+import styles from './App.module.css';
 
-function App() {
+const App = () => {
+  const state = useSelector(state => state.root);
+  const dispatch = useDispatch();
+
+  const { townToSearch, weatherData } = state;
+
+  useEffect(() => {
+    dispatch(actionCreators.fetchWeatherData(townToSearch));
+  }, [townToSearch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <div className={styles.app}>
+      <Header />
+        { weatherData?.cod === 200 
+        ?
+          <Main />
+        :
+          <TownNotFound />
+      }
+      </div>
   );
 }
 

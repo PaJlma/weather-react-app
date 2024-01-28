@@ -1,0 +1,6 @@
+.body {
+    padding-top: 1.625rem;
+    display: flex;
+    align-items: center;
+    gap: 11.25rem;
+}
